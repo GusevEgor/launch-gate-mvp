@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: core
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5433/pioneer-db
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: pass
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: postgresql
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+
+server:
+  port: 8887
+
+

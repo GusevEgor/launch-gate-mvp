@@ -1,6 +1,6 @@
 package com.example.core.manager;
 
-import com.example.core.manager.contact.CompetitionManagerContactsInfo;
+import com.example.core.contact.manager.CompetitionManagerContactsInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

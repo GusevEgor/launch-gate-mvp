@@ -1,7 +1,8 @@
 package com.example.core.competition;
 
+import com.example.core.contact.event.EventContact;
 import com.example.core.manager.CompetitionManagerInfo;
-import com.example.core.tag.TagInfo;
+import com.example.core.prize.PrizeFullInfo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class CompetitionFullInfo {
+
+    //Базовая информация
     @Schema(description = "Название конкурса")
     private String name;
 
@@ -45,21 +48,16 @@ public class CompetitionFullInfo {
     @Schema(description = "Краткое описание конкурса")
     private String shortDescription;
 
-    @Schema(description = "Теги конкурса")
-    private List<TagInfo> tagInfos;
+    @Schema(description = "Теги конкурса (по их id)")
+    private List<Long> tagInfos;
 
     @Schema(description = "Timezone")
     private String timeZone;
 
-    @Schema(description = "Id организации, которая хостит конкурс")
-    private Long hostId;
-
     @Schema(description = "Тип соревнования")
     private CompetitionType competitionType;
 
-    @Schema(description = "Менеджеры проекта")
-    private List<CompetitionManagerInfo> managers;
-
+    //Ограничения
     @Schema(description = "Является ли конкурс публичным?")
     private Boolean isPublic;
 
@@ -83,5 +81,27 @@ public class CompetitionFullInfo {
 
     @Schema(description = "Вся страна участвует?")
     private boolean isCounty;
+
+    @Schema(description = "Название регионов")
+    private List<String> regions;
+
+    @Schema(description = "Название городов")
+    private List<String> towns;
+
+
+    //Контакты и ссылки
+    @Schema(description = "Менеджеры проекта")
+    private List<CompetitionManagerInfo> managers;
+
+    @Schema(description = "Id организации, которая хостит конкурс")
+    private Long hostId;
+
+    @Schema(description = "Контакты и ссылки конкурса")
+    private List<EventContact> eventContacts;
+
+
+    //Призы
+    @Schema(description = "Призы")
+    private PrizeFullInfo prize;
 
 }

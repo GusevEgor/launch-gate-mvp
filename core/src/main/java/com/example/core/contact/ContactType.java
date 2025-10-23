@@ -1,4 +1,4 @@
-package com.example.core.manager.contact;
+package com.example.core.contact;
 
 public enum ContactType {
     VK,

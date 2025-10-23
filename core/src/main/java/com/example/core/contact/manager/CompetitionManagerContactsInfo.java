@@ -1,5 +1,6 @@
-package com.example.core.manager.contact;
+package com.example.core.contact.manager;
 
+import com.example.core.contact.ContactInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,10 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompetitionManagerContactsInfo {
-    @Schema(description = "Тип контакта")
-    private ContactType contactsType;
+    @Schema(description = "Контакты менеджера")
+    private ContactInfo contactInfo;
     @Schema(description = "Является ли приоритетным")
     private boolean isPrimary;
-    @Schema(description = "Данные контакта")
-    private String source;
 }

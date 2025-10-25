@@ -2,10 +2,10 @@ spring:
   application:
     name: core
   datasource:
-    url: jdbc:postgresql://127.0.0.1:5434/launch_gate_db
+    url: jdbc:postgresql://127.0.0.1:5432/launch_gate_db
     driver-class-name: org.postgresql.Driver
     username: postgres
-    password: password
+    password: 280305
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     database: postgresql

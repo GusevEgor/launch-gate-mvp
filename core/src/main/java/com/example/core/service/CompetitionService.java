@@ -8,15 +8,18 @@ import com.example.core.dto.contact.manager.CompetitionManagerContactsInfo;
 import com.example.core.dto.manager.CompetitionManagerInfo;
 import com.example.core.dto.prize.PrizeFullInfo;
 import com.example.core.dto.prize.PrizeInfo;
-import com.example.core.entity.Organisation;
 import com.example.core.entity.Tag;
 import com.example.core.entity.competition.*;
 import com.example.core.exception.NotFoundByIdException;
 import com.example.core.repository.CompetitionRepository;
-import com.example.core.repository.OrganisationRepository;
 import com.example.core.repository.TagRepository;
 import com.example.core.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,6 +45,26 @@ public class CompetitionService {
         return mapCompetitionToCompetitionFullInfoResponse(competition);
     }
 
+    public List<CompetitionFullInfoResponse> getAllCompetition(int page, int size, String search) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Specification<Competition> spec = (root, query, criteriaBuilder) -> {
+            if (search != null && !search.trim().isEmpty()) {
+                return criteriaBuilder.like(
+                        criteriaBuilder.lower(root.get("name")),
+                        "%" + search.toLowerCase().trim() + "%"
+                );
+            }
+
+            return criteriaBuilder.conjunction();
+        };
+
+
+        return competitionRepository.findAll(spec, pageable)
+                .map(this::mapCompetitionToCompetitionFullInfoResponse).getContent();
+    }
+
     private Competition mapCompetitionFullInfoToEntity(CompetitionFullInfo request) {
         Competition competition = new Competition();
         competition.setName(request.getName());
@@ -50,12 +73,12 @@ public class CompetitionService {
         competition.setCompetitionType(request.getCompetitionType());
         competition.setShortDescription(request.getShortDescription());
 
-        competition.setCompetitionStartDate(request.getCompetitionStartDate());
-        competition.setCompetitionEndDate(request.getCompetitionEndDate());
-        competition.setRegistrationStartDate(request.getRegistrationStartDate());
-        competition.setRegistrationEndDate(request.getRegistrationEndDate());
-        competition.setResultStartDate(request.getResultStartDate());
-        competition.setResultEndDate(request.getResultEndDate());
+        competition.setCompetitionStartDate(request.getCompetitionDateRange().getFirst());
+        competition.setCompetitionEndDate(request.getCompetitionDateRange().getLast());
+        competition.setRegistrationStartDate(request.getRegistrationDateRange().getFirst());
+        competition.setRegistrationEndDate(request.getRegistrationDateRange().getLast());
+        competition.setResultStartDate(request.getResultDateRange().getFirst());
+        competition.setResultEndDate(request.getResultDateRange().getLast());
 
         competition.setMinParticipantAge(request.getParticipantAgeRange().getFirst());
         competition.setMaxParticipantAge(request.getParticipantAgeRange().getLast());
@@ -225,7 +248,7 @@ public class CompetitionService {
                     return managerInfo;
                 }).collect(Collectors.toList()));
 
-        response.setTags(competition.getCompetitionTags()
+        response.setTagInfos(competition.getCompetitionTags()
                 .stream()
                 .map(
                         (tag) -> tag.getTag().getName())

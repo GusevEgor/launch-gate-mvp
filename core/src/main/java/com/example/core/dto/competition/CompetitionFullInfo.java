@@ -23,23 +23,15 @@ public class CompetitionFullInfo {
     @Schema(description = "Черновик")
     private Boolean isDraft;
 
-    @Schema(description = "Дата начала регистрации")
-    private Long registrationStartDate;
-
-    @Schema(description = "Дата конца регистрации")
-    private Long registrationEndDate;
-
-    @Schema(description = "Дата начала работы над конкурсом")
-    private Long competitionStartDate;
-
-    @Schema(description = "Дата конца работы над конкурсом")
-    private Long competitionEndDate;
-
-    @Schema(description = "Дата начала подведения итогов и объявления результатов")
-    private Long resultStartDate;
-
-    @Schema(description = "Дата конца подведения итогов и объявления результатов")
-    private Long resultEndDate;
+    @Size(min = 2, max = 2)
+    @Schema(description = "Даты начала и конца регистрации")
+    private List<Long> registrationDateRange;
+    @Size(min = 2, max = 2)
+    @Schema(description = "Даты начала и конца работы над конкурсом")
+    private List<Long> competitionDateRange;
+    @Size(min = 2, max = 2)
+    @Schema(description = "Даты начала и конца подведения итогов и объявления результатов")
+    private List<Long> resultDateRange;
 
     @Schema(description = "Краткое описание конкурса")
     private String shortDescription;

@@ -89,7 +89,6 @@ public class Competition {
     @Column(name = "is_country")
     private Boolean isCountry;
 
-
     @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL)
     private List<CompetitionTag> competitionTags;
 

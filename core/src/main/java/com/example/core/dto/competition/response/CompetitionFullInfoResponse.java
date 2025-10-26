@@ -42,7 +42,7 @@ public class CompetitionFullInfoResponse {
     private String shortDescription;
 
     @Schema(description = "Теги конкурса (по их id)")
-    private List<String> tags;
+    private List<String> tagInfos;
 
     @Schema(description = "Тип соревнования")
     private CompetitionType competitionType;

@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: launch-gate-postgres
+    environment:
+      POSTGRES_DB: launch_gate_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5434:5432"
+    networks:
+      - network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U waiter_user -d waiter_db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  core-service:
+    image: openjdk:21
+    container_name: core-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8887:8887"
+    networks:
+      - network
+    volumes:
+      - ./core-0.0.1-SNAPSHOT.jar:/app/core-backend.jar
+    working_dir: /app
+    command: [ "java", "-jar", "core-backend.jar" ]
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/launch_gate_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+
+volumes:
+  postgres_data:
+
+networks:
+  network:
+    driver: bridge

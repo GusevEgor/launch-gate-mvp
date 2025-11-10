@@ -16,7 +16,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U waiter_user -d waiter_db" ]
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d launch_gate_db" ]
       interval: 10s
       timeout: 5s
       retries: 5

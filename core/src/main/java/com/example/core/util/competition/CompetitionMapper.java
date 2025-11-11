@@ -1,7 +1,8 @@
 package com.example.core.util.competition;
 
 import com.example.core.dto.competition.CompetitionFullInfoRequest;
-import com.example.core.dto.competition.response.CompetitionFullInfoResponse;
+import com.example.core.dto.competition.response.CompetitionInfoFullResponse;
+import com.example.core.dto.competition.response.CompetitionInfoSmallResponse;
 import com.example.core.dto.contact.event.EventContact;
 import com.example.core.dto.prize.PrizeFullInfo;
 import com.example.core.dto.prize.PrizeInfo;
@@ -50,6 +51,7 @@ public class CompetitionMapper {
         competition.setIsPublic(request.getIsPublic());
         competition.setTargetAudience(request.getTargetAudience());
         competition.setIsCountry(request.getIsCountry());
+        competition.setPrizeDescription(request.getPrize().getDescription());
 
         // Устанавливаем награды
         competition.setCompetitionPrizes(request.getPrize()
@@ -78,13 +80,13 @@ public class CompetitionMapper {
     }
 
     /**
-     * Метод для конвертации {@link Competition} в {@link CompetitionFullInfoResponse}.
+     * Метод для конвертации {@link Competition} в {@link CompetitionInfoFullResponse}.
      *
      * @param competition {@link Competition}
-     * @return {@link CompetitionFullInfoResponse}
+     * @return {@link CompetitionInfoFullResponse}
      */
-    public CompetitionFullInfoResponse mapEntityToCompetitionFullInfoResponse(Competition competition) {
-        CompetitionFullInfoResponse response = new CompetitionFullInfoResponse();
+    public CompetitionInfoFullResponse mapEntityToCompetitionFullInfoResponse(Competition competition) {
+        CompetitionInfoFullResponse response = new CompetitionInfoFullResponse();
         //Установливаем основные поля
         response.setId(competition.getId());
         response.setName(competition.getName());
@@ -135,6 +137,7 @@ public class CompetitionMapper {
                 .map(CompetitionPrizeMapper::mapPrizeEntityToInfo)
                 .collect(Collectors.toList());
         prizeFullInfo.setPrizes(prizeInfos);
+        prizeFullInfo.setDescription(competition.getPrizeDescription());
         response.setPrize(prizeFullInfo);
 
         // Устанавливаем контакты мероприятия
@@ -159,4 +162,45 @@ public class CompetitionMapper {
 
         return response;
     }
+
+    /**
+     * Метод для конвертации {@link Competition} в {@link CompetitionInfoSmallResponse}.
+     *
+     * @param competition {@link Competition}
+     * @return {@link CompetitionInfoSmallResponse}
+     */
+    public CompetitionInfoSmallResponse mapEntityToCompetitionSmallInfoResponse(Competition competition) {
+        CompetitionInfoSmallResponse response = new CompetitionInfoSmallResponse();
+        response.setId(competition.getId());
+        response.setName(competition.getName());
+        response.setCompetitionDateRange(List.of(competition.getRegistrationStartDate(), competition.getResultEndDate()));
+
+        response.setTagInfos(competition.getCompetitionTags()
+                .stream()
+                .map((tag) -> tag.getTag().getName())
+                .collect(Collectors.toList()));
+
+        response.setCompetitionType(competition.getCompetitionType());
+        response.setCompetitionFormat(competition.getFormatOfCompetition());
+        response.setIsPublic(competition.getIsPublic());
+        response.setTargetAudience(competition.getTargetAudience());
+        response.setIsTeamRequired(competition.getIsTeamRequired());
+
+        List<Integer> teamSizeRange = new ArrayList<>();
+        teamSizeRange.add(competition.getMinTeamSize());
+        teamSizeRange.add(competition.getMaxTeamSize());
+        response.setTeamSizeRange(teamSizeRange);
+
+        PrizeFullInfo prizeFullInfo = new PrizeFullInfo();
+        List<PrizeInfo> prizeInfos = competition.getCompetitionPrizes()
+                .stream()
+                .map(CompetitionPrizeMapper::mapPrizeEntityToInfo)
+                .collect(Collectors.toList());
+        prizeFullInfo.setDescription(competition.getPrizeDescription());
+        prizeFullInfo.setPrizes(prizeInfos);
+        response.setPrize(prizeFullInfo);
+
+        return response;
+    }
+
 }

@@ -35,7 +35,8 @@ create table if not exists competitions (
     is_team_required BOOLEAN NOT NULL,
     min_team_size INTEGER CHECK ( min_team_size > 0 ) NOT NULL,
     max_team_size INTEGER CHECK ( max_team_size > 0 ) NOT NULL,
-    is_country BOOLEAN NOT NULL
+    is_country BOOLEAN NOT NULL,
+    prize_description TEXT
 
 );
 
@@ -202,5 +203,5 @@ create table if not exists competition_contacts (
 
     constraint fk_manager_contacts_manager
     foreign key (competition_id) references competitions(id) ON DELETE CASCADE
-    );
+);
 

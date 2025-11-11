@@ -1,7 +1,8 @@
 package com.example.core.service;
 
 import com.example.core.dto.competition.CompetitionFullInfoRequest;
-import com.example.core.dto.competition.response.CompetitionFullInfoResponse;
+import com.example.core.dto.competition.response.CompetitionInfoFullResponse;
+import com.example.core.dto.competition.response.CompetitionInfoSmallResponse;
 import com.example.core.entity.Tag;
 import com.example.core.entity.competition.*;
 import com.example.core.exception.NotFoundByIdException;
@@ -37,10 +38,10 @@ public class CompetitionService {
      * Метод для создания мероприятия.
      *
      * @param request {@link CompetitionFullInfoRequest}
-     * @return {@link CompetitionFullInfoResponse}
+     * @return {@link CompetitionInfoFullResponse}
      */
     @Transactional
-    public CompetitionFullInfoResponse createCompetition(CompetitionFullInfoRequest request) {
+    public CompetitionInfoFullResponse createCompetition(CompetitionFullInfoRequest request) {
         Competition competition = CompetitionMapper.mapCompetitionFullInfoRequestToEntity(request);
 
         // Устанавливаем менеджеров
@@ -52,7 +53,8 @@ public class CompetitionService {
                     manager.setCompetition(competition);
                     manager.setUser(userRepository.findById(managerInfo.getUserId()).orElse(null));
                     return manager;
-                }).collect(Collectors.toList())
+                })
+                .collect(Collectors.toList())
         );
 
         // Устанавливаем теги мероприятия
@@ -79,9 +81,9 @@ public class CompetitionService {
      * Метод получения мероприятия по id.
      *
      * @param id {@link Long}
-     * @return {@link CompetitionFullInfoResponse}
+     * @return {@link CompetitionInfoFullResponse}
      */
-    public CompetitionFullInfoResponse getCompetition(Long id) {
+    public CompetitionInfoFullResponse getCompetition(Long id) {
         Competition competition = competitionRepository.findById(id).orElseThrow(
                 () -> new NotFoundByIdException(Competition.class, id));
         return CompetitionMapper.mapEntityToCompetitionFullInfoResponse(competition);
@@ -93,9 +95,9 @@ public class CompetitionService {
      * @param page   {@link Integer}
      * @param size   {@link Integer}
      * @param search {@link String}
-     * @return {@link List}{@code <}{@link CompetitionFullInfoResponse}{@code >}
+     * @return {@link List}{@code <}{@link CompetitionInfoFullResponse}{@code >}
      */
-    public List<CompetitionFullInfoResponse> getAllCompetition(Integer page, Integer size, String search) {
+    public List<CompetitionInfoSmallResponse> getAllCompetition(Integer page, Integer size, String search) {
 
         Pageable pageable = PageRequest.of(page, size);
 
@@ -112,7 +114,7 @@ public class CompetitionService {
 
 
         return competitionRepository.findAll(spec, pageable)
-                .map(CompetitionMapper::mapEntityToCompetitionFullInfoResponse)
+                .map(CompetitionMapper::mapEntityToCompetitionSmallInfoResponse)
                 .getContent();
     }
 

@@ -89,6 +89,9 @@ public class Competition {
     @Column(name = "is_country")
     private Boolean isCountry;
 
+    @Column(name = "prize_description")
+    private String prizeDescription;
+
     @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL)
     private List<CompetitionTag> competitionTags;
 

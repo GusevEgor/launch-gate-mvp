@@ -1,4 +1,4 @@
-package com.example.core.util.competition;
+package com.example.core.util.mapper.competition;
 
 import com.example.core.dto.prize.PrizeInfo;
 import com.example.core.entity.competition.CompetitionPrize;

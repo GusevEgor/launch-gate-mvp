@@ -21,11 +21,34 @@ services:
       timeout: 5s
       retries: 5
 
+  minio:
+    image: minio/minio:latest
+    container_name: launch-gate-minio
+    environment:
+      MINIO_ROOT_USER: minio-admin
+      MINIO_ROOT_PASSWORD: minio-strong-password
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - network
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
   core-service:
     image: openjdk:21
     container_name: core-service
     depends_on:
       postgres:
+        condition: service_healthy
+      minio:
         condition: service_healthy
     ports:
       - "8887:8887"
@@ -39,9 +62,13 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/launch_gate_db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
+      MINIO_INTERNAL_URL: http://minio:9000
+      MINIO_ACCESS_KEY: minio-admin
+      MINIO_SECRET_KEY: minio-strong-password
 
 volumes:
   postgres_data:
+  minio_data:
 
 networks:
   network:

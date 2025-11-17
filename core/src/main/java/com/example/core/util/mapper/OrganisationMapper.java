@@ -1,4 +1,4 @@
-package com.example.core.util;
+package com.example.core.util.mapper;
 
 import com.example.core.dto.organisation.OrganisationInfo;
 import com.example.core.dto.organisation.OrganisationResponse;

@@ -32,8 +32,8 @@ public class TagController {
      * @return {@link TagInfoResponse}
      */
     @LogBefore
-    @Operation(summary = "Создание тега")
     @PostMapping("/create")
+    @Operation(summary = "Создание тега")
     public TagInfoResponse createTag(TagInfo request) {
         return tagService.createTag(request);
     }
@@ -44,8 +44,8 @@ public class TagController {
      * @return {@code List}{@code <}{@link TagInfoResponse}{@code >
      */
     @LogBefore
-    @Operation(summary = "Получение всех тегов")
     @GetMapping("/get-all")
+    @Operation(summary = "Получение всех тегов")
     public List<TagInfoResponse> getAllTags() {
         return tagService.getAllTags();
     }

@@ -80,4 +80,7 @@ public class CompetitionInfoFullResponse {
     @Schema(description = "Призы")
     private PrizeFullInfo prize;
 
+    @Schema(description = "Json форма")
+    private String jsonForm;
+
 }

@@ -1,4 +1,4 @@
-package com.example.core.util.competition;
+package com.example.core.util.mapper.competition;
 
 import com.example.core.dto.competition.CompetitionFullInfoRequest;
 import com.example.core.dto.competition.response.CompetitionInfoFullResponse;

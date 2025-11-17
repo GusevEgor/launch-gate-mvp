@@ -1,4 +1,4 @@
-package com.example.core.util;
+package com.example.core.util.mapper;
 
 import com.example.core.dto.tag.TagInfo;
 import com.example.core.dto.tag.TagInfoResponse;

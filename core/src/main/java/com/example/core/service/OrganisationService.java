@@ -4,7 +4,7 @@ import com.example.core.dto.organisation.OrganisationInfo;
 import com.example.core.dto.organisation.OrganisationResponse;
 import com.example.core.entity.Organisation;
 import com.example.core.repository.OrganisationRepository;
-import com.example.core.util.OrganisationMapper;
+import com.example.core.util.mapper.OrganisationMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.example.core.util.competition;
+package com.example.core.util.mapper.competition;
 
 import com.example.core.dto.contact.ContactInfo;
 import com.example.core.dto.contact.event.EventContact;

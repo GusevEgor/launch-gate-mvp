@@ -36,7 +36,8 @@ create table if not exists competitions (
     min_team_size INTEGER CHECK ( min_team_size > 0 ) NOT NULL,
     max_team_size INTEGER CHECK ( max_team_size > 0 ) NOT NULL,
     is_country BOOLEAN NOT NULL,
-    prize_description TEXT
+    prize_description TEXT,
+    name_json_from VARCHAR(255)
 
 );
 

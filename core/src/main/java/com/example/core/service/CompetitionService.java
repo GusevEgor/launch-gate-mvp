@@ -9,8 +9,8 @@ import com.example.core.exception.NotFoundByIdException;
 import com.example.core.repository.CompetitionRepository;
 import com.example.core.repository.TagRepository;
 import com.example.core.repository.UserRepository;
-import com.example.core.util.competition.CompetitionManagerMapper;
-import com.example.core.util.competition.CompetitionMapper;
+import com.example.core.util.mapper.competition.CompetitionManagerMapper;
+import com.example.core.util.mapper.competition.CompetitionMapper;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +33,7 @@ public class CompetitionService {
     private final CompetitionRepository competitionRepository;
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
+    private final FileService fileService;
 
     /**
      * Метод для создания мероприятия.
@@ -43,6 +44,7 @@ public class CompetitionService {
     @Transactional
     public CompetitionInfoFullResponse createCompetition(CompetitionFullInfoRequest request) {
         Competition competition = CompetitionMapper.mapCompetitionFullInfoRequestToEntity(request);
+        competition.setNameJsonFrom(fileService.saveJsonString(request.getJsonForm()));
 
         // Устанавливаем менеджеров
         competition.setCompetitionManagers(request.getManagers()
@@ -73,7 +75,11 @@ public class CompetitionService {
         Competition savedCompetition = competitionRepository.save(competition);
 
         log.info("Competition with id {} created", savedCompetition.getId());
-        return CompetitionMapper.mapEntityToCompetitionFullInfoResponse(savedCompetition);
+
+        CompetitionInfoFullResponse response =
+                CompetitionMapper.mapEntityToCompetitionFullInfoResponse(savedCompetition);
+        response.setJsonForm(request.getJsonForm());
+        return response;
 
     }
 
@@ -86,7 +92,9 @@ public class CompetitionService {
     public CompetitionInfoFullResponse getCompetition(Long id) {
         Competition competition = competitionRepository.findById(id).orElseThrow(
                 () -> new NotFoundByIdException(Competition.class, id));
-        return CompetitionMapper.mapEntityToCompetitionFullInfoResponse(competition);
+        CompetitionInfoFullResponse response = CompetitionMapper.mapEntityToCompetitionFullInfoResponse(competition);
+        response.setJsonForm(fileService.getJsonString(competition.getNameJsonFrom()));
+        return response;
     }
 
     /**
@@ -124,7 +132,11 @@ public class CompetitionService {
      * @param id {@link Long}
      */
     public void deleteCompetition(Long id) {
+        Competition competition = competitionRepository.findById(id).orElseThrow(
+                () -> new NotFoundByIdException(Competition.class, id));
+
         competitionRepository.deleteById(id);
+        fileService.deleteJsonFile(competition.getNameJsonFrom());
         log.info("Competition with id {} deleted", id);
     }
 

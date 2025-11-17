@@ -24,10 +24,10 @@ public class Media {
     private Long id;
 
     @Column(name = "filename")
-    private String filename;
+    private String fileName;
 
     @Column(name = "url")
-    private String url;
+    private String minioUrl;
 
     @Column(name = "type_media")
     private String typeMedia;

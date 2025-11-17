@@ -92,6 +92,9 @@ public class Competition {
     @Column(name = "prize_description")
     private String prizeDescription;
 
+    @Column(name = "name_json_from")
+    private String nameJsonFrom;
+
     @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL)
     private List<CompetitionTag> competitionTags;
 

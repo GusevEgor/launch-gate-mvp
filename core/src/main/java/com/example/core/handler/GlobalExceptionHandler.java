@@ -47,4 +47,11 @@ public class GlobalExceptionHandler {
                 .map(error -> new ErrorResponse(error.getField(), error.getDefaultMessage()))
                 .toList();
     }
+
+    @ExceptionHandler(FileException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorResponse handleFileException(FileException ex) {
+        return new ErrorResponse("File error", ex.getMessage());
+    }
 }

@@ -85,6 +85,10 @@ public class CompetitionFullInfoRequest {
     @Schema(description = "Вся страна участвует?")
     private Boolean isCountry;
 
+    @NotBlank
+    @Schema(description = "Json форма")
+    private String jsonForm;
+
     @Valid
     @NotNull
     @Schema(description = "Менеджеры проекта")

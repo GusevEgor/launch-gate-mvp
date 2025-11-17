@@ -4,7 +4,7 @@ import com.example.core.dto.tag.TagInfo;
 import com.example.core.dto.tag.TagInfoResponse;
 import com.example.core.entity.Tag;
 import com.example.core.repository.TagRepository;
-import com.example.core.util.TagMapper;
+import com.example.core.util.mapper.TagMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

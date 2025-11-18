@@ -51,7 +51,9 @@ public class CompetitionMapper {
         competition.setIsPublic(request.getIsPublic());
         competition.setTargetAudience(request.getTargetAudience());
         competition.setIsCountry(request.getIsCountry());
+        competition.setMainImageUrl(request.getMainImageUrl());
         competition.setPrizeDescription(request.getPrize().getDescription());
+
 
         // Устанавливаем награды
         competition.setCompetitionPrizes(request.getPrize()
@@ -129,6 +131,7 @@ public class CompetitionMapper {
         response.setIsPublic(competition.getIsPublic());
         response.setTargetAudience(competition.getTargetAudience());
         response.setIsCountry(competition.getIsCountry());
+        response.setMainImageUrl(competition.getMainImageUrl());
 
         // Устанавливаем награды
         PrizeFullInfo prizeFullInfo = new PrizeFullInfo();
@@ -199,6 +202,7 @@ public class CompetitionMapper {
         prizeFullInfo.setDescription(competition.getPrizeDescription());
         prizeFullInfo.setPrizes(prizeInfos);
         response.setPrize(prizeFullInfo);
+        response.setMainImageUrl(competition.getMainImageUrl());
 
         return response;
     }

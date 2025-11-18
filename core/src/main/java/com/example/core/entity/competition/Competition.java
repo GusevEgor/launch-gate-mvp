@@ -95,6 +95,9 @@ public class Competition {
     @Column(name = "name_json_from")
     private String nameJsonFrom;
 
+    @Column(name = "main_image_url")
+    private String mainImageUrl;
+
     @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL)
     private List<CompetitionTag> competitionTags;
 

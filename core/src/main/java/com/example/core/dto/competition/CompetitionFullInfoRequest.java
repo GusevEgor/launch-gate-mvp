@@ -86,6 +86,10 @@ public class CompetitionFullInfoRequest {
     private Boolean isCountry;
 
     @NotBlank
+    @Schema(description = "Основное изображение конкурса")
+    private String mainImageUrl;
+
+    @NotBlank
     @Schema(description = "Json форма")
     private String jsonForm;
 

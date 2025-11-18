@@ -6,6 +6,7 @@ import com.example.core.dto.contact.event.EventContact;
 import com.example.core.dto.manager.CompetitionManagerInfo;
 import com.example.core.dto.prize.PrizeFullInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -68,6 +69,12 @@ public class CompetitionInfoFullResponse {
     @Schema(description = "Вся страна участвует?")
     private Boolean isCountry;
 
+    @Schema(description = "Основное изображение конкурса")
+    private String mainImageUrl;
+
+    @Schema(description = "Json форма")
+    private String jsonForm;
+
     @Schema(description = "Менеджеры проекта")
     private List<CompetitionManagerInfo> managers;
 
@@ -79,8 +86,5 @@ public class CompetitionInfoFullResponse {
 
     @Schema(description = "Призы")
     private PrizeFullInfo prize;
-
-    @Schema(description = "Json форма")
-    private String jsonForm;
 
 }

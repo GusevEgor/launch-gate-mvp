@@ -72,9 +72,6 @@ public class CompetitionInfoFullResponse {
     @Schema(description = "Основное изображение конкурса")
     private String mainImageUrl;
 
-    @Schema(description = "Json форма")
-    private String jsonForm;
-
     @Schema(description = "Менеджеры проекта")
     private List<CompetitionManagerInfo> managers;
 

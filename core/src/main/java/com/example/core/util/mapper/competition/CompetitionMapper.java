@@ -34,7 +34,6 @@ public class CompetitionMapper {
         competition.setIsDraft(request.getIsDraft());
         competition.setFormatOfCompetition(request.getCompetitionFormat());
         competition.setCompetitionType(request.getCompetitionType());
-        competition.setShortDescription(request.getShortDescription());
 
         competition.setCompetitionStartDate(request.getCompetitionDateRange().getFirst());
         competition.setCompetitionEndDate(request.getCompetitionDateRange().getLast());
@@ -52,7 +51,6 @@ public class CompetitionMapper {
         competition.setTargetAudience(request.getTargetAudience());
         competition.setIsCountry(request.getIsCountry());
         competition.setMainImageUrl(request.getMainImageUrl());
-        competition.setPrizeDescription(request.getPrize().getDescription());
 
 
         // Устанавливаем награды
@@ -95,7 +93,6 @@ public class CompetitionMapper {
         response.setIsDraft(competition.getIsDraft());
         response.setCompetitionFormat(competition.getFormatOfCompetition());
         response.setCompetitionType(competition.getCompetitionType());
-        response.setShortDescription(competition.getShortDescription());
 
         // Устанавливаем даты регистрации (начало и конец)
         List<Long> registrationStartRange = new ArrayList<>();
@@ -140,7 +137,6 @@ public class CompetitionMapper {
                 .map(CompetitionPrizeMapper::mapPrizeEntityToInfo)
                 .collect(Collectors.toList());
         prizeFullInfo.setPrizes(prizeInfos);
-        prizeFullInfo.setDescription(competition.getPrizeDescription());
         response.setPrize(prizeFullInfo);
 
         // Устанавливаем контакты мероприятия
@@ -199,7 +195,6 @@ public class CompetitionMapper {
                 .stream()
                 .map(CompetitionPrizeMapper::mapPrizeEntityToInfo)
                 .collect(Collectors.toList());
-        prizeFullInfo.setDescription(competition.getPrizeDescription());
         prizeFullInfo.setPrizes(prizeInfos);
         response.setPrize(prizeFullInfo);
         response.setMainImageUrl(competition.getMainImageUrl());

@@ -38,7 +38,7 @@ public class Competition {
     private CompetitionType competitionType;
 
     @Column(name = "short_description")
-    private String shortDescription;
+    private String shortDescriptionName;
 
     @Column(name = "registration_start_date")
     private Long registrationStartDate;
@@ -90,10 +90,7 @@ public class Competition {
     private Boolean isCountry;
 
     @Column(name = "prize_description")
-    private String prizeDescription;
-
-    @Column(name = "name_json_from")
-    private String nameJsonFrom;
+    private String prizeDescriptionName;
 
     @Column(name = "main_image_url")
     private String mainImageUrl;

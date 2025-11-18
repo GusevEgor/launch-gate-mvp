@@ -44,7 +44,8 @@ public class CompetitionService {
     @Transactional
     public CompetitionInfoFullResponse createCompetition(CompetitionFullInfoRequest request) {
         Competition competition = CompetitionMapper.mapCompetitionFullInfoRequestToEntity(request);
-        competition.setNameJsonFrom(fileService.saveJsonString(request.getJsonForm()));
+        competition.setShortDescriptionName(fileService.saveJsonString(request.getShortDescription()));
+        competition.setPrizeDescriptionName(fileService.saveJsonString(request.getPrize().getDescription()));
 
         // Устанавливаем менеджеров
         competition.setCompetitionManagers(request.getManagers()
@@ -78,7 +79,8 @@ public class CompetitionService {
 
         CompetitionInfoFullResponse response =
                 CompetitionMapper.mapEntityToCompetitionFullInfoResponse(savedCompetition);
-        response.setJsonForm(request.getJsonForm());
+        response.setShortDescription(request.getShortDescription());
+        response.getPrize().setDescription(request.getPrize().getDescription());
         return response;
 
     }
@@ -93,7 +95,8 @@ public class CompetitionService {
         Competition competition = competitionRepository.findById(id).orElseThrow(
                 () -> new NotFoundByIdException(Competition.class, id));
         CompetitionInfoFullResponse response = CompetitionMapper.mapEntityToCompetitionFullInfoResponse(competition);
-        response.setJsonForm(fileService.getJsonString(competition.getNameJsonFrom()));
+        response.setShortDescription(fileService.getJsonString(competition.getShortDescriptionName()));
+        response.getPrize().setDescription(fileService.getJsonString(competition.getPrizeDescriptionName()));
         return response;
     }
 
@@ -120,10 +123,16 @@ public class CompetitionService {
             return criteriaBuilder.conjunction();
         };
 
-
-        return competitionRepository.findAll(spec, pageable)
-                .map(CompetitionMapper::mapEntityToCompetitionSmallInfoResponse)
+        List<CompetitionInfoSmallResponse> listCompetition = competitionRepository.findAll(spec, pageable)
+                .map(competition -> {
+                    CompetitionInfoSmallResponse response =
+                            CompetitionMapper.mapEntityToCompetitionSmallInfoResponse(competition);
+                    response.getPrize().setDescription(fileService.getJsonString(competition.getPrizeDescriptionName()));
+                    return response;
+                })
                 .getContent();
+
+        return listCompetition;
     }
 
     /**
@@ -136,7 +145,8 @@ public class CompetitionService {
                 () -> new NotFoundByIdException(Competition.class, id));
 
         competitionRepository.deleteById(id);
-        fileService.deleteJsonFile(competition.getNameJsonFrom());
+        fileService.deleteJsonFile(competition.getShortDescriptionName());
+        fileService.deleteJsonFile(competition.getPrizeDescriptionName());
         log.info("Competition with id {} deleted", id);
     }
 

@@ -89,10 +89,6 @@ public class CompetitionFullInfoRequest {
     @Schema(description = "Основное изображение конкурса")
     private String mainImageUrl;
 
-    @NotBlank
-    @Schema(description = "Json форма")
-    private String jsonForm;
-
     @Valid
     @NotNull
     @Schema(description = "Менеджеры проекта")
